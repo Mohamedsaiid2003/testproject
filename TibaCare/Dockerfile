@@ -1,11 +1,10 @@
-# استخدم صورة OpenJDK علشان تشغل جافا
-FROM openjdk:17-jdk-slim
-
-# تعيين working directory داخل الحاوية
+FROM maven:3.9.4-eclipse-temurin-17 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# نسخ الملف jar اللي المشروع هيطلعه بعد الـ build
-COPY target/*.jar app.jar
-
-# أمر تشغيل التطبيق
+FROM eclipse-temurin:17-jre
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
