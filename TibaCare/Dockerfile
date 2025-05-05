@@ -1,12 +1,26 @@
-# Step 1: Use Maven image to build the app
-FROM maven:3.9-eclipse-temurin-17 AS build
+# ======================
+# Step 1: Build with Maven
+# ======================
+FROM maven:3.9.6-eclipse-temurin-17 AS build
+
 WORKDIR /app
-COPY . /app
+
+# انسخ ملفات المشروع و dependencies
+COPY pom.xml .  
+COPY src ./src
+
+# شغّل build بدون tests
 RUN mvn clean package -DskipTests
 
-# Step 2: Use JDK image to run the app
-FROM eclipse-temurin:17-jdk
+# ======================
+# Step 2: Run the jar
+# ======================
+FROM eclipse-temurin:17-jre
+
 WORKDIR /app
+
+# انسخ ملف jar اللي طلع من الـ build stage
 COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
+
+# شغّل التطبيق
 ENTRYPOINT ["java", "-jar", "app.jar"]
