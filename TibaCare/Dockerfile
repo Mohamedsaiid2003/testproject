@@ -1,22 +1,27 @@
-# Use a base Java image with Maven pre-installed
-FROM maven:3.9.5-eclipse-temurin-17 as build
-
-WORKDIR /app
-
-# Copy everything into the image (including mvnw + .mvn)
-COPY . .
-
-# Run Maven clean package
-RUN ./mvnw clean package
-
-# ---- Second stage ----
+# استخدم JDK رسمي
 FROM openjdk:17-jdk-slim
 
-VOLUME /tmp
+# اضبط مجلد العمل
+WORKDIR /app
 
-# Copy jar from build stage
-COPY --from=build /app/target/*.jar app.jar
+# نسخ كل ملفات المشروع
+COPY . .
 
+# إعطاء صلاحية التنفيذ للملف mvnw
+RUN chmod +x mvnw
+
+# بناء المشروع بدون تشغيل الاختبارات
+RUN ./mvnw clean package -DskipTests
+
+# المرحلة النهائية
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+
+# نسخ ملف الجار من المرحلة السابقة
+COPY --from=0 /app/target/*.jar app.jar
+
+# البورت اللي التطبيق بيسمع عليه
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","/app.jar"]
+# أمر التشغيل
+ENTRYPOINT ["java","-jar","app.jar"]
