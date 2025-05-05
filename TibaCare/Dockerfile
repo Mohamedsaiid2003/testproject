@@ -1,27 +1,12 @@
-# استخدم JDK رسمي
-FROM openjdk:17-jdk-slim
-
-# اضبط مجلد العمل
+# Step 1: Use Maven image to build the app
+FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
+COPY . /app
+RUN mvn clean package -DskipTests
 
-# نسخ كل ملفات المشروع
-COPY . .
-
-# إعطاء صلاحية التنفيذ للملف mvnw
-RUN chmod +x mvnw
-
-# بناء المشروع بدون تشغيل الاختبارات
-RUN ./mvnw clean package -DskipTests
-
-# المرحلة النهائية
-FROM openjdk:17-jdk-slim
+# Step 2: Use JDK image to run the app
+FROM eclipse-temurin:17-jdk
 WORKDIR /app
-
-# نسخ ملف الجار من المرحلة السابقة
-COPY --from=0 /app/target/*.jar app.jar
-
-# البورت اللي التطبيق بيسمع عليه
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
-# أمر التشغيل
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
