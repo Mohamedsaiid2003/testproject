@@ -34,7 +34,8 @@ public class DepartmentController {
             @PathVariable("departmentId") Long departmentId,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String email) {
-        Optional<Department> existingDepartment = departmentService.getDepartmentsById(departmentId);
+        Optional<Department> existingDepartment =
+                departmentService.getDepartmentsById(departmentId);
         if (existingDepartment.isPresent()) {
             Department department = existingDepartment.get();
             department.setId(departmentId);
