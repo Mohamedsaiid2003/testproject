@@ -11,12 +11,9 @@ import java.util.Optional;
 
 @Service
 public class StaffService {
-    private final StaffRepository staffRepository;
-
     @Autowired
-    public StaffService(StaffRepository staffRepository) {
-        this.staffRepository = staffRepository;
-    }
+    private  StaffRepository staffRepository;
+
     public List<Staff> getstaff(){
         return staffRepository.findAll();
     }

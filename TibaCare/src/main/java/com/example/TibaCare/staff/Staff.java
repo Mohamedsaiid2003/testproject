@@ -9,13 +9,12 @@ import java.time.Period;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
-@Entity(name = "staff")
+@Entity(name = "Staff")
 @Table(
         name = "staff",
         uniqueConstraints = {
                 @UniqueConstraint(name = "staff_email_unique",columnNames = "email"),
                 @UniqueConstraint(name = "staff_national_identity_card_unique",columnNames = "national_identity_card")
-
         }
 )
 public class Staff {
@@ -56,6 +55,7 @@ public class Staff {
     )
     private String gender;
 
+    @Enumerated(EnumType.STRING)
     @Column(
             name = "role",
             nullable = false,
@@ -94,8 +94,7 @@ public class Staff {
     private String national_identity_card;
 
     @ManyToOne
-    @JoinColumn(name = "department_id",
-            referencedColumnName = "id")
+    @JoinColumn(name = "department_id")
     private Department department;
 
     @Column(
