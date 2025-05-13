@@ -2,7 +2,6 @@ package com.example.TibaCare.appointment;
 
 import com.example.TibaCare.department.Department;
 import com.example.TibaCare.staff.Staff;
-import com.example.TibaCare.user.Users;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -17,7 +16,7 @@ import static jakarta.persistence.GenerationType.SEQUENCE;
                 @UniqueConstraint(name = "users_email_unique",columnNames = "email")
         }
 )
-public class Appointment extends Users {
+public class Appointment  {
     @Id
     @SequenceGenerator(
             name = "appointment_sequence",
@@ -83,7 +82,10 @@ public class Appointment extends Users {
             columnDefinition ="TEXT"
     )
     private String gender;
-
+    @Column(
+            name = "appointment_date",
+            nullable = false
+    )
     private LocalDate appointment_date;
 
     private LocalDate date_of_birth;
@@ -137,28 +139,19 @@ public class Appointment extends Users {
         this.department_name = department_name;
         this.doctor_name = doctor_name;
     }
-
-    public long getId() {
-        return id;
+    public String getName() {
+        return this.firstname + this.lastname;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setName(String name) {
+        name = this.firstname + this.lastname;
     }
-
     public Staff getDoctor_name() {
         return doctor_name;
     }
 
     public void setDoctor_name(Staff doctor_name) {
         this.doctor_name = doctor_name;
-    }
-    public LocalDate getAppointment_date() {
-        return appointment_date;
-    }
-
-    public void setAppointment_date(LocalDate appointment_date) {
-        this.appointment_date = appointment_date;
     }
 
     public Department getDepartment_name() {
@@ -169,72 +162,85 @@ public class Appointment extends Users {
         this.department_name = department_name;
     }
 
-
-    @Override
-    public String getFirstname() {
-        return firstname;
-    }
-    @Override
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-    @Override
-    public String getLastname() {
-        return lastname;
-    }
-    @Override
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-    @Override
-    public String getEmail() {
-        return email;
-    }
-    @Override
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    @Override
-    public String getMobilnumber() {
-        return mobilnumber;
-    }
-    @Override
-    public void setMobilnumber(String mobilnumber) {
-        this.mobilnumber = mobilnumber;
-    }
-    @Override
-    public String getAdress() {
-        return adress;
-    }
-    @Override
-    public void setAdress(String adress) {
-        this.adress = adress;
-    }
-    @Override
-    public String getNational_identity_card() {
-        return national_identity_card;
-    }
-    @Override
-    public void setNational_identity_card(String national_identity_card) {
-        this.national_identity_card = national_identity_card;
-    }
-    @Override
-    public String getGender() {
-        return gender;
-    }
-    @Override
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-    @Override
     public LocalDate getDate_of_birth() {
         return date_of_birth;
     }
-    @Override
+
     public void setDate_of_birth(LocalDate date_of_birth) {
         this.date_of_birth = date_of_birth;
     }
-    @Override
+
+    public LocalDate getAppointment_date() {
+        return appointment_date;
+    }
+
+    public void setAppointment_date(LocalDate appointment_date) {
+        this.appointment_date = appointment_date;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getNational_identity_card() {
+        return national_identity_card;
+    }
+
+    public void setNational_identity_card(String national_identity_card) {
+        this.national_identity_card = national_identity_card;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public String getMobilnumber() {
+        return mobilnumber;
+    }
+
+    public void setMobilnumber(String mobilnumber) {
+        this.mobilnumber = mobilnumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     public Integer getAge(){
         return Period.between(this.date_of_birth,LocalDate.now()).getYears();
     }
@@ -252,7 +258,7 @@ public class Appointment extends Users {
                 ", gender='" + gender + '\'' +
                 ", appointment_date=" + appointment_date +
                 ", date_of_birth=" + date_of_birth +
-                ", department_name='" + department_name + '\'' +
+                ", department_name=" + department_name +
                 ", doctor_name=" + doctor_name +
                 ", age=" + age +
                 '}';

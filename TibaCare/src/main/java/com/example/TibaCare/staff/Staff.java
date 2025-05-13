@@ -96,6 +96,12 @@ public class Staff {
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
+    @Column(
+            name = "rebort",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
+    private String rebort;
 
     @Column(
             name = "password",
@@ -116,11 +122,12 @@ public class Staff {
     public Staff(Long id, String firstname, String lastname,
                  String gender, Role role, String mobilnumber,
                  String email, String adress, String national_identity_card,
-                 String password, LocalDate date_of_birth , Department  department) {
+                 String password, LocalDate date_of_birth , Department  department,String rebort) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.gender = gender;
+        this.rebort = rebort;
         this.role = role;
         this.mobilnumber = mobilnumber;
         this.email = email;
@@ -134,13 +141,14 @@ public class Staff {
     public Staff(String firstname, String lastname, String gender,
                  Role role, String mobilnumber, String email,
                  String adress, String national_identity_card,
-                 String password, LocalDate date_of_birth,Department department) {
+                 String password, LocalDate date_of_birth,Department department,String rebort) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.gender = gender;
         this.role = role;
         this.mobilnumber = mobilnumber;
         this.email = email;
+        this.rebort = rebort;
         this.adress = adress;
         this.department = department;
         this.national_identity_card = national_identity_card;
@@ -165,6 +173,14 @@ public class Staff {
 
     public String getFirstname() {
         return firstname;
+    }
+
+    public String getRebort() {
+        return rebort;
+    }
+
+    public void setRebort(String rebort) {
+        this.rebort = rebort;
     }
 
     public void setFirstname(String firstname) {
