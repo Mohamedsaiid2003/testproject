@@ -13,11 +13,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping(path = "api/v1/department")
 public class DepartmentController {
-    private DepartmentService departmentService;
+    private  DepartmentService departmentService;
 
     @Autowired
     public DepartmentController(DepartmentService departmentService) {
-        departmentService = departmentService;
+        this.departmentService = departmentService;
     }
 
     @GetMapping
@@ -29,6 +29,14 @@ public class DepartmentController {
     public void addDepartment(@RequestBody Department department) {
         departmentService.saveDepartments(department);
     }
+    @PostMapping("/{departmentId}/assign-staff")
+    public ResponseEntity<String> assignDoctorsToDepartment(
+            @PathVariable Long departmentId,
+            @RequestBody List<Long> staffId) {
+        departmentService.assignDoctorsToDepartment(departmentId, staffId);
+        return ResponseEntity.ok("Staff assigned successfully");
+    }
+
     @PutMapping(path = "{departmentId}")
     public void updateDepartment(
             @PathVariable("departmentId") Long departmentId,

@@ -9,7 +9,8 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "api/v1/appointment")
 public class AppointmentController {
-    private final AppointmentService appointmentService;
+    private  AppointmentService appointmentService;
+
     @Autowired
     public AppointmentController(AppointmentService appointmentService) {
         this.appointmentService = appointmentService;

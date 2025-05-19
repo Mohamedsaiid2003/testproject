@@ -1,5 +1,4 @@
 package com.example.TibaCare.user;
-import com.example.TibaCare.enums.Role;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -89,9 +88,6 @@ public class Users  implements UserDetails {
     )
     @Transient
     private Integer age;
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
     @Column(
             name = "password",
             nullable = false,
@@ -103,7 +99,7 @@ public class Users  implements UserDetails {
     public Users(int id, String firstname, String lastname,
                  String email, String mobilnumber,
                  String adress, String national_identity_card,
-                 String gender, LocalDate date_of_birth,Role role, String password) {
+                 String gender, LocalDate date_of_birth, String password) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -112,14 +108,13 @@ public class Users  implements UserDetails {
         this.adress = adress;
         this.national_identity_card = national_identity_card;
         this.gender = gender;
-        this.role = role;
         this.date_of_birth = date_of_birth;
         this.password = password;
     }
     public Users(String firstname, String lastname,
                  String email, String mobilnumber,
                  String adress, String national_identity_card,
-                 String gender, LocalDate date_of_birth,Role role, String password) {
+                 String gender, LocalDate date_of_birth, String password) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -127,7 +122,6 @@ public class Users  implements UserDetails {
         this.adress = adress;
         this.national_identity_card = national_identity_card;
         this.gender = gender;
-        this.role = role;
         this.date_of_birth = date_of_birth;
         this.password = password;
     }
@@ -185,12 +179,7 @@ public class Users  implements UserDetails {
     public void setDate_of_birth(LocalDate date_of_birth) {
         this.date_of_birth = date_of_birth;
     }
-    public Role getRole() {
-        return role;
-    }
-    public void setRole(Role role) {
-        this.role = role;
-    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -205,7 +194,7 @@ public class Users  implements UserDetails {
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(this.role.name()));
+        return List.of(new SimpleGrantedAuthority("USER"));
 
     }
     @Override
@@ -245,7 +234,6 @@ public class Users  implements UserDetails {
                 ", gender='" + gender + '\'' +
                 ", date_of_birth=" + date_of_birth +
                 ", age=" + age +
-                ", role=" + role +
                 ", password='" + password + '\'' +
                 '}';
     }

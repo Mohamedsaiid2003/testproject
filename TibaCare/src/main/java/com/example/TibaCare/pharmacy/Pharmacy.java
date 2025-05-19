@@ -30,7 +30,7 @@ public class Pharmacy {
             columnDefinition = "TEXT"
     )
     private String medicinename;
-    private List<String> Category;
+    private List<String> Category ;
     @Column(
             name = "price",
             nullable = false
@@ -63,19 +63,20 @@ public class Pharmacy {
 
     public Pharmacy() {
     }
-    public Pharmacy(int id, String medicinename, List<String> category, double price, int quantity, String manufacturer, String description, String expiredate) {
+    public Pharmacy(int id, String medicinename,
+                    double price, int quantity, String manufacturer,
+                    String description, String expiredate) {
         this.id = id;
         this.medicinename = medicinename;
-        Category = category;
         this.price = price;
         this.quantity = quantity;
         this.manufacturer = manufacturer;
         this.description = description;
         this.expiredate = expiredate;
     }
-    public Pharmacy(String medicinename, List<String> category, double price, int quantity, String manufacturer, String description, String expiredate) {
+    public Pharmacy(String medicinename, double price, int quantity,
+                    String manufacturer, String description, String expiredate) {
         this.medicinename = medicinename;
-        Category = category;
         this.price = price;
         this.quantity = quantity;
     }

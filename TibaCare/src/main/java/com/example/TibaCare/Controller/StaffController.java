@@ -17,20 +17,23 @@ public class StaffController {
     public StaffController(StaffService staffService) {
         this.staffService = staffService;
     }
-    @GetMapping(path = "getdata")
+
+    @GetMapping(path = "/getdata")
     public List<Staff> getStaff(){
         return staffService.getstaff();
     }
-    @PostMapping(path = "addStaff")
+
+    @PostMapping(path = "/addStaff")
     public void registerNewStaff(@RequestBody Staff staff){
         staffService.addNewStaff(staff);
     }
-    @DeleteMapping(path = "{staffId}")
+
+    @DeleteMapping(path = "/{staffId}")
     public void deletStaff(@PathVariable("staffId") Long staffId){
         staffService.deletestaff(staffId);
     }
-    @PutMapping(path = "{staffId}")
 
+    @PutMapping(path = "/{staffId}")
     public void updateStaff(
             @PathVariable("staffId") Long staffId,
             @RequestParam(required = false) String name,

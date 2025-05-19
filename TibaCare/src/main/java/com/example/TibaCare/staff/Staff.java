@@ -3,9 +3,14 @@ package com.example.TibaCare.staff;
 import com.example.TibaCare.department.Department;
 import com.example.TibaCare.enums.Role;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Collection;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
@@ -17,7 +22,7 @@ import static jakarta.persistence.GenerationType.SEQUENCE;
                 @UniqueConstraint(name = "staff_national_identity_card_unique",columnNames = "national_identity_card")
         }
 )
-public class Staff {
+public class Staff implements UserDetails {
     @Id
     @SequenceGenerator(
             name = "staff_sequence",
@@ -93,15 +98,12 @@ public class Staff {
     )
     private String national_identity_card;
 
+
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
-    @Column(
-            name = "rebort",
-            nullable = false,
-            columnDefinition = "TEXT"
-    )
-    private String rebort;
+
+
 
     @Column(
             name = "password",
@@ -110,10 +112,6 @@ public class Staff {
     )
     private String password;
     private LocalDate date_of_birth;
-    @Column(
-            name = "age",
-            nullable = false
-    )
     @Transient
     private Integer age;
 
@@ -122,12 +120,11 @@ public class Staff {
     public Staff(Long id, String firstname, String lastname,
                  String gender, Role role, String mobilnumber,
                  String email, String adress, String national_identity_card,
-                 String password, LocalDate date_of_birth , Department  department,String rebort) {
+                 String password, LocalDate date_of_birth , Department  department) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.gender = gender;
-        this.rebort = rebort;
         this.role = role;
         this.mobilnumber = mobilnumber;
         this.email = email;
@@ -141,19 +138,47 @@ public class Staff {
     public Staff(String firstname, String lastname, String gender,
                  Role role, String mobilnumber, String email,
                  String adress, String national_identity_card,
-                 String password, LocalDate date_of_birth,Department department,String rebort) {
+                 String password, LocalDate date_of_birth,Department department) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.gender = gender;
         this.role = role;
         this.mobilnumber = mobilnumber;
         this.email = email;
-        this.rebort = rebort;
         this.adress = adress;
         this.department = department;
         this.national_identity_card = national_identity_card;
         this.password = password;
         this.date_of_birth = date_of_birth;
+    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+
+    }
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+    @Override
+    public String getUsername() {
+        return getEmail();
+    }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public Long getId() {
@@ -163,24 +188,17 @@ public class Staff {
     public void setId(Long id) {
         this.id = id;
     }
-    public void setDepartment(Department department){
-        this.department = department;
-}
 
-    public Department  getDepartment() {
+    public Department getDepartment() {
         return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public String getFirstname() {
         return firstname;
-    }
-
-    public String getRebort() {
-        return rebort;
-    }
-
-    public void setRebort(String rebort) {
-        this.rebort = rebort;
     }
 
     public void setFirstname(String firstname) {
@@ -246,10 +264,6 @@ public class Staff {
 
     public void setNational_identity_card(String national_identity_card) {
         this.national_identity_card = national_identity_card;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {

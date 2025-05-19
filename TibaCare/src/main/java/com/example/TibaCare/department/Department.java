@@ -3,6 +3,7 @@ package com.example.TibaCare.department;
 import com.example.TibaCare.staff.Staff;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
@@ -33,45 +34,25 @@ public class Department {
     )
     private String departmentName;
 
-    @OneToMany(mappedBy = "department")
-    private List<Staff> staffList;
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Staff> doctors = new ArrayList<>();
 
     public Department() {}
 
     public Department(String departmentName) {
         this.departmentName = departmentName;
     }
-
-
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
     public String getDepartmentName() {
         return departmentName;
     }
-
     public void setDepartmentName(String departmentName) {
         this.departmentName = departmentName;
     }
 
-    public List<Staff> getStaffList() {
-        return staffList;
-    }
-
-    public void setStaffList(List<Staff> staffList) {
-        this.staffList = staffList;
-    }
-
-    @Override
-    public String toString() {
-        return "Department{" +
-                "id=" + id +
-                ", departmentName='" + departmentName + '\'' +
-                '}';
-    }
 }

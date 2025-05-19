@@ -17,6 +17,10 @@ public class PharmacyService {
     public List<Pharmacy> getpharmacy(){
         return pharmacyRepository.findAll();
     }
+    public void addCategory(){
+        Pharmacy pharmacy = new Pharmacy();
+         pharmacy.setCategory(List.of("Antibiotics","Painkillers","Vitamins","Cardiac"));
+    }
 
     public void addNewPharmacy(Pharmacy pharmacy) {
         pharmacyRepository.save(pharmacy);

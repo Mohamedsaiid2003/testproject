@@ -1,5 +1,7 @@
 package com.example.TibaCare.Controller;
 
+import com.example.TibaCare.staff.Staff;
+import com.example.TibaCare.staff.StaffService;
 import com.example.TibaCare.user.Users;
 import com.example.TibaCare.user.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +12,13 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "api/v1/user")
 public class UsersController {
-    @Autowired
     private UsersService usersService;
+
+    @Autowired
+    public UsersController(UsersService usersService) {
+        this.usersService = usersService;
+
+    }
 
     @GetMapping("/getuserdata")
     public List<Users> getData() {
@@ -37,9 +44,4 @@ public class UsersController {
         usersService.updateUser(userId,name,email);
 
     }
-    @PostMapping("/SignIn")
-    public String verify(@RequestBody Users users) {
-        return usersService.verify(users);
-    }
-
 }

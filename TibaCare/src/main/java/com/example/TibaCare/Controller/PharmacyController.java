@@ -11,22 +11,26 @@ import java.util.List;
 @RequestMapping(path = "api/v1/pharmacy")
 public class PharmacyController {
 
-    @Autowired
+
     private PharmacyService pharmacyService;
+    @Autowired
+    public PharmacyController(PharmacyService pharmacyService) {
+        this.pharmacyService = pharmacyService;
+    }
 
     @GetMapping
     public List<Pharmacy> getPharmacy(){
         return pharmacyService.getpharmacy();
     }
-    @PostMapping(path = "addpharmacy")
+    @PostMapping(path = "/addpharmacy")
     public void registerNewPharmacy(@RequestBody Pharmacy pharmacy){
         pharmacyService.addNewPharmacy(pharmacy);
     }
-    @DeleteMapping(path = "deletepharmacy")
+    @DeleteMapping(path = "{deletepharmacy}")
     public void deletePharmacy(@RequestBody int pharmacyId){
         pharmacyService.deletepharmacy(pharmacyId);
     }
-    @PutMapping(path = "updatepharmacy")
+    @PutMapping(path = "{updatepharmacy}")
     public void updatePharmacy(@RequestBody int pharmacyId , @RequestBody String medicinename ){
         pharmacyService.updatepharmacy(pharmacyId,medicinename,null);
     }
