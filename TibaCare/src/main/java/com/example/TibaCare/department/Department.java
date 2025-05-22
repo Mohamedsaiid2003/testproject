@@ -29,18 +29,18 @@ public class Department {
     private Long id;
 
     @Column(
-            name = "department_name",
+            name = "name",
             nullable = false
     )
-    private String departmentName;
+    private String name;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Staff> doctors = new ArrayList<>();
 
     public Department() {}
 
-    public Department(String departmentName) {
-        this.departmentName = departmentName;
+    public Department(String name) {
+        this.name = name;
     }
     public Long getId() {
         return id;
@@ -49,10 +49,10 @@ public class Department {
         this.id = id;
     }
     public String getDepartmentName() {
-        return departmentName;
+        return name;
     }
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
+    public void setDepartmentName(String name) {
+        this.name = name;
     }
 
 }

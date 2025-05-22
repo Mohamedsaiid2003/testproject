@@ -20,5 +20,5 @@ public interface StaffRepository extends JpaRepository<Staff,Long> {
     Optional<Staff> findBynational_identity_card(String national_identity_card);
 
     @Query("SELECT u FROM Staff u WHERE u.email = ?1")
-    Users findByUsername(String email);
+    Staff findByUsername(String email);
 }

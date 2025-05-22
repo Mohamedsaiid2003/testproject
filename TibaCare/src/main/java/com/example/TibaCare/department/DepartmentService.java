@@ -2,6 +2,7 @@ package com.example.TibaCare.department;
 
 import com.example.TibaCare.staff.Staff;
 import com.example.TibaCare.staff.StaffRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,22 @@ public class DepartmentService {
     @Autowired
     private StaffRepository staffRepository;
 
+    @PostConstruct
+    public void initStaticDepartments() {
+        createIfNotExists("Cardiology");
+        createIfNotExists("Teeth");
+        createIfNotExists("Pediatrics");
+        createIfNotExists("Internal Medicine");
+        createIfNotExists("Orthopedics");
+        System.out.println("Static departments initialized.");
+    }
+    private void createIfNotExists(String department) {
+        if (departmentRepository.findByName(department).isEmpty()) {
+            Department dept = new Department();
+            dept.setDepartmentName(department);
+            departmentRepository.save(dept);
+        }
+    }
 
     public List<Department> getAllDepartments() {
         return departmentRepository.findAll();
