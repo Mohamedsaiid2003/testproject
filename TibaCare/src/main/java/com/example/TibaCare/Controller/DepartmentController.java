@@ -3,7 +3,6 @@ package com.example.TibaCare.Controller;
 import com.example.TibaCare.department.Department;
 import com.example.TibaCare.department.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
